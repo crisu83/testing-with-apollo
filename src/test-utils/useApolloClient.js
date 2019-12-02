@@ -6,6 +6,8 @@ export default function useApolloClient(config) {
 
   useEffect(() => {
     return () => {
+      // Apollo Client should be terminated
+      // when the component is unmounted.
       client.stop()
     }
   }, [client])

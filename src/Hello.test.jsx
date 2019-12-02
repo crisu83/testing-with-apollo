@@ -1,25 +1,20 @@
 import { MockedProvider } from '@apollo/react-testing'
 import { render, wait } from '@testing-library/react'
-import gql from 'graphql-tag'
 import React from 'react'
-import Hello from './Hello'
+import Hello, { HELLO_QUERY } from './Hello'
 import ErrorProvider from './test-utils/ErrorProvider'
 import LoadingProvider from './test-utils/LoadingProvider'
 import SchemaProvider from './test-utils/SchemaProvider'
 
-test('Hello component with MockedProvider', async () => {
+test('Execute query with MockedProvider', async () => {
   const mocks = [
     {
       request: {
-        query: gql`
-          query {
-            hello
-          }
-        `,
+        query: HELLO_QUERY,
       },
       result: {
         data: {
-          hello: 'Hello from MockedProvider!',
+          hello: 'Hello world!',
         },
       },
     },
@@ -33,10 +28,10 @@ test('Hello component with MockedProvider', async () => {
 
   await wait()
 
-  expect(getByText('Hello from MockedProvider!')).toBeDefined()
+  expect(getByText('Hello world!')).toBeDefined()
 })
 
-test('Hello component with SchemaProvider', async () => {
+test('Execute query with SchemaProvider', async () => {
   const typeDefs = `
   type Query {
     hello: String!
@@ -47,7 +42,7 @@ test('Hello component with SchemaProvider', async () => {
     <SchemaProvider
       typeDefs={typeDefs}
       queryResolvers={{
-        hello: () => 'Hello from SchemaProvider!',
+        hello: () => 'Hello world!',
       }}
     >
       <Hello />
@@ -56,22 +51,33 @@ test('Hello component with SchemaProvider', async () => {
 
   await wait()
 
-  expect(getByText('Hello from SchemaProvider!')).toBeDefined()
+  expect(getByText('Hello world!')).toBeDefined()
 })
 
-test('Renders the loading state', () => {
+test('Error state with MockedProvider', async () => {
+  const mocks = [
+    {
+      request: {
+        query: HELLO_QUERY,
+      },
+      error: new Error('Something went wrong'),
+    },
+  ]
+
   const { getByText } = render(
-    <LoadingProvider>
+    <MockedProvider mocks={mocks} addTypename={false}>
       <Hello />
-    </LoadingProvider>,
+    </MockedProvider>,
   )
 
-  expect(getByText('Loading...')).toBeDefined()
+  await wait()
+
+  expect(getByText('Network error: Something went wrong')).toBeDefined()
 })
 
-test('Renders the error state', async () => {
+test('Error state with ErrorProvider', async () => {
   const { getByText } = render(
-    <ErrorProvider errors={[{ message: 'Something went wrong' }]}>
+    <ErrorProvider errors={[new Error('Something went wrong')]}>
       <Hello />
     </ErrorProvider>,
   )
@@ -79,4 +85,14 @@ test('Renders the error state', async () => {
   await wait()
 
   expect(getByText('GraphQL error: Something went wrong')).toBeDefined()
+})
+
+test('Loading state with LoadingProvider', () => {
+  const { getByText } = render(
+    <LoadingProvider>
+      <Hello />
+    </LoadingProvider>,
+  )
+
+  expect(getByText('Loading...')).toBeDefined()
 })
