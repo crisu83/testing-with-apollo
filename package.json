@@ -2,7 +2,6 @@
   "name": "testing-with-apollo",
   "version": "1.0.0",
   "description": "The demo project for my \"Testing with Apollo\" talk",
-  "main": "src/index.js",
   "repository": "git@github.com:crisu83/testing-with-apollo.git",
   "author": "Christoffer Niska <christofferniska@gmail.com>",
   "license": "MIT",
