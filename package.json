@@ -1,0 +1,33 @@
+{
+  "name": "testing-with-apollo",
+  "version": "1.0.0",
+  "description": "The demo project for my \"Testing with Apollo\" talk",
+  "main": "src/index.js",
+  "repository": "git@github.com:crisu83/testing-with-apollo.git",
+  "author": "Christoffer Niska <christofferniska@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.7.4",
+    "@babel/preset-env": "^7.7.4",
+    "@babel/preset-react": "^7.7.4",
+    "@testing-library/react": "^9.3.2",
+    "babel-jest": "^24.9.0",
+    "jest": "^24.9.0",
+    "react-test-renderer": "^16.12.0"
+  },
+  "dependencies": {
+    "@apollo/react-hooks": "^3.1.3",
+    "apollo-cache-inmemory": "^1.6.3",
+    "apollo-client": "^2.6.4",
+    "apollo-link": "^1.2.13",
+    "apollo-link-schema": "^1.2.4",
+    "graphql": "^14.5.8",
+    "graphql-tag": "^2.10.1",
+    "graphql-tools": "^4.0.6",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
+  },
+  "scripts": {
+    "test": "jest"
+  }
+}
