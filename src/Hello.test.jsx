@@ -2,10 +2,10 @@ import { MockedProvider } from '@apollo/react-testing'
 import { render, wait } from '@testing-library/react'
 import gql from 'graphql-tag'
 import React from 'react'
-import ErrorProvider from './ErrorProvider'
 import Hello from './Hello'
-import LoadingProvider from './LoadingProvider'
-import SchemaProvider from './SchemaProvider'
+import ErrorProvider from './test-utils/ErrorProvider'
+import LoadingProvider from './test-utils/LoadingProvider'
+import SchemaProvider from './test-utils/SchemaProvider'
 
 test('Hello component with MockedProvider', async () => {
   const mocks = [
