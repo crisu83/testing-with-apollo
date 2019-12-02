@@ -1,9 +1,9 @@
 import { ApolloProvider } from '@apollo/react-hooks'
 import { InMemoryCache } from 'apollo-cache-inmemory'
-import ApolloClient from 'apollo-client'
 import SchemaLink from 'apollo-link-schema'
 import { addMockFunctionsToSchema, makeExecutableSchema } from 'graphql-tools'
 import React from 'react'
+import useApolloClient from './useApolloClient'
 
 const SchemaProvider = ({
   children,
@@ -28,12 +28,14 @@ const SchemaProvider = ({
 
   addMockFunctionsToSchema({ schema, mocks })
 
-  const client = new ApolloClient({
+  const client = useApolloClient({
     link: new SchemaLink({ schema }),
     cache: new InMemoryCache(),
   })
 
-  return <ApolloProvider client={client}>{children}</ApolloProvider>
+  return children ? (
+    <ApolloProvider client={client}>{children}</ApolloProvider>
+  ) : null
 }
 
 export default SchemaProvider

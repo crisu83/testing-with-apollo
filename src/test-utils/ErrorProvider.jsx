@@ -1,8 +1,8 @@
 import { ApolloProvider } from '@apollo/react-hooks'
 import { InMemoryCache } from 'apollo-cache-inmemory'
-import ApolloClient from 'apollo-client'
 import { ApolloLink, Observable } from 'apollo-link'
 import React from 'react'
+import useApolloClient from './useApolloClient'
 
 const ErrorProvider = ({ errors, children }) => {
   const errorLink = new ApolloLink(
@@ -13,12 +13,14 @@ const ErrorProvider = ({ errors, children }) => {
       }),
   )
 
-  const client = new ApolloClient({
+  const client = useApolloClient({
     link: errorLink,
     cache: new InMemoryCache(),
   })
 
-  return <ApolloProvider client={client}>{children}</ApolloProvider>
+  return children ? (
+    <ApolloProvider client={client}>{children}</ApolloProvider>
+  ) : null
 }
 
 export default ErrorProvider
